@@ -7,7 +7,7 @@ export class DockerService {
 
 
     constructor() {
-        this.docker = new Docker({ socketPath: "/var/run/docker.sock" });
+        this.docker = new Docker({ socketPath: "/var/run/docker.sock" }); // TODO: understand it deeply
     }
 
     async listOfContainers(showAllContainers: boolean = false): Promise<DockerModel[]> {
@@ -46,16 +46,30 @@ export class DockerService {
     }
 
     // TODO: IMPLEMENT
+    // https://docs.docker.com/engine/api/v1.25/#operation/ContainerLogs
     async getLogsFromContainer(containerId: string) {
         const container = await this.docker.container.get(containerId);
         const logStream =  await container.logs({
-            follow: true,
+            follow: false,
             stdout: true,
             stderr: true,
         });
-        logStream.on("data", (info: any) => console.log(info));
-        logStream.on("error", (err: any) => console.log(err));
-        logStream.destroy();
+        
+        return new Promise((resolve, reject) => {
+            const data: any = {};
+            logStream.on("data", (d: any) => {
+                console.log(d.toString());
+                // Create an object with 'key' the timestamp and 'value' the message that have been logged
+                const regEx = new RegExp(/\[(.+)\]/);
+                const matchedRegEx = regEx.exec(d.toString());
+                if (matchedRegEx) {
+                    data[matchedRegEx[1]] = d.toString();
+                }
+                
+            });
+            logStream.on("end", () =>  resolve(data));
+            logStream.on("error", reject);
+        });
 
     }
 

@@ -61,3 +61,7 @@ https://docs.docker.com/install/linux/linux-postinstall/
 
 ## View log output of each container instance.
 > GET /containers/{id}/logs
+
+# How to run the docker file
+> docker build -t "manage_docker_containers" .
+> docker run --env APP_PORT=3001 -p 3001:3001 -it manage_docker_containers

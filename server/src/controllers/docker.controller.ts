@@ -18,7 +18,7 @@ export class DockerController {
         this.post();
         this.startStopContainer();
         this.deleteContainer();
-        // this.logsFromContainer();
+        this.logsFromContainer();
         this.resourcesFromContainer();
     }
 
@@ -98,9 +98,9 @@ export class DockerController {
             try {
                 const containerId = req.params.id;
 
-                await this.dockerService.getLogsFromContainer(containerId);
+                const data = await this.dockerService.getLogsFromContainer(containerId);
                 
-                res.json({ deleted: true });
+                res.json(data);
             } catch (error) {
                 next(error);
             }

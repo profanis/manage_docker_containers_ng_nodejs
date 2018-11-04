@@ -1,6 +1,5 @@
 require("dotenv").config();
 
-import { Request, Response } from "express";
 import * as http from "http";
 
 import app from "./app";
