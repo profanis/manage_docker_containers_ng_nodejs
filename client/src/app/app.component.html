@@ -1,0 +1,21 @@
+<nav class="navbar navbar-dark bg-dark mb-5">
+  <a class="navbar-brand" href="/">
+    <img src="../assets/angular_athens.jpeg" />
+    Containers Manager</a>
+  <div class="navbar-expand mr-auto">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" [routerLink]="['/docker-manager']">docker manager</a>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
+<nav class="navbar navbar-dark bg-dark mt-5 fixed-bottom">
+  <div class="navbar-expand m-auto navbar-text">
+    prodromouf@gmail.com
+  </div>
+</nav>
+
+
+
