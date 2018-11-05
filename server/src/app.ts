@@ -33,7 +33,7 @@ class App {
     }
 
     private configureRoutes() {
-        this.app.use("/containers", new DockerController().router);
+        this.app.use("/api/containers", new DockerController().router);
     }
 }
 
