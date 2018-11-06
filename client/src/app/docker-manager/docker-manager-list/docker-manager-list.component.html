@@ -1,0 +1,46 @@
+<table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>
+          Name
+        </th>
+        <th>
+          Tag
+        </th>
+        <th>
+          Running
+        </th>
+        <th>
+          Actions
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let container of (containers$ | async)">
+        <td>
+          {{container.name}}
+        </td>
+        <td>
+          {{container.tag}}
+        </td>
+        <td>
+          {{container.state.running}}
+        </td>
+        <td class="actions">
+            <i  *ngIf="!container.state.running"
+                class="fa fa-play-circle fa-5 mr-2"
+                (click)="actionStartContainer(container.id)"
+                title="Start container"></i>
+
+            <i  class="fa fa-stop-circle fa-5 mr-2"
+                (click)="actionStopContainer(container.id)"
+                title="Stop container"></i>
+
+            <i  *ngIf="!container.state.running"
+                class="fa fa-trash"
+                (click)="actionDeleteContainer(container.id)"
+                title="Delete container"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>

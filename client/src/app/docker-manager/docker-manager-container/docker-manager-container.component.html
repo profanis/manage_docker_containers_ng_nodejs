@@ -1,14 +1,8 @@
-<div class="row">
-  <div class="col-sm">
-    Name
-  </div>
-  <div class="col-sm">
-    Tag
-  </div>
-  <div class="col-sm">
-    Running
-  </div>
-  <div class="col-sm">
-    Actions
-  </div>
-</div>
+<app-docker-manager-create (createContainer)="createContainer($event)">
+
+</app-docker-manager-create>
+
+<app-docker-manager-list  [containers$]="containers$"
+                          (deleteContainer)=deleteContainer($event)
+                          (startContainer)=startContainer($event)
+                          (stopContainer)=stopContainer($event)></app-docker-manager-list>

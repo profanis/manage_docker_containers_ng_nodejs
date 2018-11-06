@@ -1,0 +1,20 @@
+<form [formGroup]="newContainerForm"
+      class="needs-validation form-inline"
+      [noValidate]=true
+      (submit)="actionCreateContainer(newContainerForm)">
+  <div class="form-group mb-2">
+    <input  type="text"
+            class="form-control"
+            [ngClass]="{'is-invalid': newContainerForm.get('name').invalid && newContainerForm.get('name').dirty }"
+            placeholder="Name"
+            formControlName="name">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <input  type="text"
+            class="form-control"
+            [ngClass]="{'is-invalid': newContainerForm.get('tag').invalid && newContainerForm.get('tag').dirty }"
+            placeholder="Tag"
+            formControlName="tag">
+  </div>
+  <button type="submit" class="btn btn-primary mb-2" [disabled]="newContainerForm.invalid">Create</button>
+</form>
