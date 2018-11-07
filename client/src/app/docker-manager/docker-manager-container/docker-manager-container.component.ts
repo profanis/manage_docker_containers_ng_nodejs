@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
 import { ContainersService } from '../containers.service';
 import { ContainerModel } from '../models/container.model';
@@ -8,48 +9,57 @@ import { ContainerModel } from '../models/container.model';
 @Component({
   selector: 'app-docker-manager-container',
   templateUrl: './docker-manager-container.component.html',
-  styleUrls: ['./docker-manager-container.component.scss'],
-  providers: [ContainersService]
+  styleUrls: ['./docker-manager-container.component.scss']
 })
 export class DockerManagerContainerComponent implements OnInit {
 
   containers$: Observable<ContainerModel[]>;
+  showAllContainers = false;
 
-  constructor(private containerService: ContainersService) { }
+  constructor(private containerService: ContainersService,
+              private router: Router) { }
 
   ngOnInit() {
-    this.initContainers();
+    this.getContainers();
+  }
+
+  getContainers() {
+    this.containers$ = this.containerService.getContainers(this.showAllContainers);
   }
 
   // TODO: handle errors and create a service with an array of containers. Subscribe on this array instead
   startContainer(containerId) {
-    this.containers$ = this.containerService.startContainer(containerId).pipe(
-      switchMap(() => this.containerService.getContainers(true))
-    );
+    this.invokeActionAndLoadContainers(this.containerService.startContainer(containerId));
   }
 
   // TODO: handle errors and create a service with an array of containers. Subscribe on this array instead
   stopContainer(containerId) {
-    this.containers$ = this.containerService.stopContainer(containerId).pipe(
-      switchMap(() => this.containerService.getContainers(true))
-    );
+    this.invokeActionAndLoadContainers(this.containerService.stopContainer(containerId));
   }
 
   // TODO: handle errors and create a service with an array of containers. Subscribe on this array instead
   deleteContainer(containerId) {
-    this.containers$ = this.containerService.deleteContainer(containerId).pipe(
-      switchMap(() => this.containerService.getContainers(true))
-    );
+    this.invokeActionAndLoadContainers(this.containerService.deleteContainer(containerId));
   }
 
   // TODO: handle errors and create a service with an array of containers. Subscribe on this array instead
   createContainer(containerModel: ContainerModel) {
-    this.containers$ = this.containerService.createContainer(containerModel).pipe(
-      switchMap(() => this.containerService.getContainers(true))
-    );
+    this.invokeActionAndLoadContainers(this.containerService.createContainer(containerModel));
   }
 
-  private initContainers() {
-    this.containers$ = this.containerService.getContainers(true);
+  showContainerLogs(containerId) {
+    this.router.navigate(['/docker-logs', containerId]);
+  }
+
+  showContainerResources(containerId) {
+    this.router.navigate(['/docker-resources', containerId]);
+  }
+
+  private invokeActionAndLoadContainers(func) {
+    func.pipe(
+      switchMap(() => this.containerService.getContainers(true).pipe(
+        tap(data => this.containers$ = of(data))
+      ))
+    ).subscribe();
   }
 }

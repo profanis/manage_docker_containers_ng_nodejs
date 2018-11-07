@@ -1,0 +1,11 @@
+<h2>Logs for:</h2>
+<h4>{{(containerModel$ | async)?.name}}
+  {{(containerModel$ | async)?.tag}}
+</h4>
+
+<ul *ngIf="(containerModel$ | async)?.logs">
+  <li *ngFor="let logItem of (containerModel$ | async)?.logs">
+    <p><strong>{{logItem.title}}</strong></p>
+    <p>{{logItem.data | json}}</p>
+  </li>
+</ul>

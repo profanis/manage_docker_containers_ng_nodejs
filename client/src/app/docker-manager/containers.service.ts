@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ContainerModel } from './models/container.model';
 import { Observable } from 'rxjs';
 import { DockerModel } from '../../../../server/src/models/docker.model';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ContainersService {
@@ -45,5 +46,13 @@ export class ContainersService {
       'tag': containerModel.tag
     };
     return this.http.post<ContainerModel>(this.endpoint, body);
+  }
+
+  getContainerLogs(containerId: string) {
+    return this.http.get<ContainerModel>(`${this.endpoint}/${containerId}/logs`);
+  }
+
+  getContainerResources(containerId: string) {
+    return this.http.get<ContainerModel>(`${this.endpoint}/${containerId}/resources`);
   }
 }

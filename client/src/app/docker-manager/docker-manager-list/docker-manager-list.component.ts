@@ -15,6 +15,8 @@ export class DockerManagerListComponent {
   @Output() startContainer = new EventEmitter<string>();
   @Output() stopContainer = new EventEmitter<string>();
   @Output() deleteContainer = new EventEmitter<string>();
+  @Output() showContainerLogs = new EventEmitter<string>();
+  @Output() showContainerResources = new EventEmitter<string>();
 
   actionStartContainer(containerId: string) {
     this.startContainer.emit(containerId);
@@ -26,6 +28,14 @@ export class DockerManagerListComponent {
 
   actionDeleteContainer(containerId: string) {
     this.deleteContainer.emit(containerId);
+  }
+
+  actionShowContainerLogs(containerId: string) {
+    this.showContainerLogs.emit(containerId);
+  }
+
+  actionShowResources(containerId: string) {
+    this.showContainerResources.emit(containerId);
   }
 
 }

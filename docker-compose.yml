@@ -1,0 +1,21 @@
+version: '3'
+services:
+
+  client:
+    build: ./client
+    ports:
+      - "4200:80"
+    environment:
+      - BACKEND_HOST=server
+    depends_on:
+      - server
+
+  server:
+    build: ./server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - APP_PORT=3001
+      - NODE_ENV=development
+    ports:
+      - "3001:3001"

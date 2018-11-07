@@ -32,14 +32,25 @@
                 (click)="actionStartContainer(container.id)"
                 title="Start container"></i>
 
-            <i  class="fa fa-stop-circle fa-5 mr-2"
+            <i  *ngIf="container.state.running"
+                class="fa fa-stop-circle fa-5 mr-2"
                 (click)="actionStopContainer(container.id)"
                 title="Stop container"></i>
 
             <i  *ngIf="!container.state.running"
-                class="fa fa-trash"
+                class="fa fa-trash  mr-2"
                 (click)="actionDeleteContainer(container.id)"
                 title="Delete container"></i>
+
+            <i  class="fa fa-pencil-square-o  mr-2"
+                (click)="actionShowContainerLogs(container.id)"
+                title="show logs"></i>
+
+
+            <i  class="fa fa-cogs"
+                (click)="actionShowResources(container.id)"
+                title="show resources"></i>
+
         </td>
       </tr>
     </tbody>

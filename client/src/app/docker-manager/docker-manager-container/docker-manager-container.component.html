@@ -1,8 +1,27 @@
-<app-docker-manager-create (createContainer)="createContainer($event)">
+<div class="d-flex justify-content-between">
 
-</app-docker-manager-create>
+  <app-docker-manager-create (createContainer)="createContainer($event)"></app-docker-manager-create>
+
+  <!-- Running Containers -->
+  <div>
+    <input  class="form-check-input"
+            type="checkbox"
+            [(ngModel)]="showAllContainers"
+            (change)="getContainers()"
+            id="showAllContainersCheck">
+    <label class="form-check-label" for="showAllContainersCheck">
+      Show all containers
+    </label>
+  </div>
+  <!-- /Running Containers -->
+
+</div>
+
 
 <app-docker-manager-list  [containers$]="containers$"
-                          (deleteContainer)=deleteContainer($event)
-                          (startContainer)=startContainer($event)
-                          (stopContainer)=stopContainer($event)></app-docker-manager-list>
+                          (deleteContainer)="deleteContainer($event)"
+                          (startContainer)="startContainer($event)"
+                          (stopContainer)="stopContainer($event)"
+                          (showContainerLogs)="showContainerLogs($event)"
+                          (showContainerResources)="showContainerResources($event)">
+</app-docker-manager-list>

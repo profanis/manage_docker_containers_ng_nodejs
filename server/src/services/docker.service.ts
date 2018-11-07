@@ -48,7 +48,11 @@ export class DockerService {
     // TODO: IMPLEMENT
     // https://docs.docker.com/engine/api/v1.25/#operation/ContainerLogs
     async getLogsFromContainer(containerId: string) {
+
         const container = await this.docker.container.get(containerId);
+
+        const containerInfo = await this.getContainerInfo(container);
+
         const logStream =  await container.logs({
             follow: false,
             stdout: true,
@@ -56,25 +60,28 @@ export class DockerService {
         });
         
         return new Promise((resolve, reject) => {
-            const data: any = {};
+            containerInfo.logs = [];
             logStream.on("data", (d: any) => {
                 console.log(d.toString());
                 // Create an object with 'key' the timestamp and 'value' the message that have been logged
                 const regEx = new RegExp(/\[(.+)\]/);
                 const matchedRegEx = regEx.exec(d.toString());
-                if (matchedRegEx) {
-                    data[matchedRegEx[1]] = d.toString();
+                if (matchedRegEx && containerInfo.logs) {
+                    containerInfo.logs.push({
+                        title: matchedRegEx[1],
+                        data: d.toString()
+                    });
                 }
                 
             });
-            logStream.on("end", () =>  resolve(data));
+            logStream.on("end", () =>  resolve(containerInfo));
             logStream.on("error", reject);
         });
 
     }
 
     /**
-     * TODO: beautify the response
+     * TODO: beautify the response  
      * It terminates imidiately the stream as soon as it gets the first event argument
      * @param containerId 
      */
