@@ -4,8 +4,10 @@
 
 ```
 cd server
+yarn install
 yarn tsc
 cd ../client
+yarn install
 yarn build
 docker-compose up --build
 ```
