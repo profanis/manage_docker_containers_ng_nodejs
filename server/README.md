@@ -9,9 +9,11 @@ The project is based on yarn package manager. It would work with npm, but it's n
   
   The user should be in `docker` group. For more https://docs.docker.com/install/linux/linux-postinstall/
 
-> yarn tsc
-> docker build -t "manage_docker_containers" .
-> docker run --env APP_PORT=3001 -p 3001:3001 -it manage_docker_containers
+```
+yarn tsc
+docker build -t "manage_docker_containers" .
+docker run --env APP_PORT=3001 -p 3001:3001 -it manage_docker_containers
+```
 
 ### Test
 > yarn test
