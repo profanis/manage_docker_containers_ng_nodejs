@@ -21,5 +21,7 @@ execute on the cli `yarn build`
   
   The user should be in `docker` group. For more https://docs.docker.com/install/linux/linux-postinstall/
 
-> yarn build
-> docker build .  
+```
+yarn build
+docker build .  
+```
