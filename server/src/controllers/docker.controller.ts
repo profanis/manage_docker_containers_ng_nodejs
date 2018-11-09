@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from 'express';
 
-import { DockerService } from "../services/docker.service";
+import { DockerService } from '../services/docker.service';
 
 
 export class DockerController {
@@ -23,7 +23,7 @@ export class DockerController {
     }
 
     private get() {
-        this.router.get("/", async (req: Request, res: Response, next: NextFunction) => {
+        this.router.get('/', async (req: Request, res: Response, next: NextFunction) => {
             try {
                 
                 const { all } = req.query;
@@ -37,17 +37,17 @@ export class DockerController {
     }
 
     private post() {
-        this.router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+        this.router.post('/', async (req: Request, res: Response, next: NextFunction) => {
             try {
                 
                 const { name, tag } = req.body;
                 if (!name || !tag) {
-                    return next("name or tag body properties are required");
+                    return next('name or tag body properties are required');
                 }
                 
                 const data = await this.dockerService.createContainer(name, tag);
                 
-                res.json(data);
+                res.status(201).json(data);
             } catch (error) {
                 next(error);
             }
@@ -55,23 +55,23 @@ export class DockerController {
     }
 
     private startStopContainer() {
-        this.router.patch("/:id", async (req: Request, res: Response, next: NextFunction) => {
+        this.router.patch('/:id', async (req: Request, res: Response, next: NextFunction) => {
             try {
                 const containerId = req.params.id;
                 const { status } = req.body;
 
                 if (!status) {
-                    return next("status property is required");
+                    return next('status property is required');
                 }
 
                 const actions: any = {
-                    start: () => this.dockerService.startStopContainer(containerId, "start"),
-                    stop: () => this.dockerService.startStopContainer(containerId, "stop")
+                    start: () => this.dockerService.startStopContainer(containerId, 'start'),
+                    stop: () => this.dockerService.startStopContainer(containerId, 'stop')
                 };
                 
                 const data = await actions[status].call();
                 
-                res.json(data);
+                res.status(201).json(data);
             } catch (error) {
                 next(error);
             }
@@ -79,22 +79,21 @@ export class DockerController {
     }
 
     private deleteContainer() {
-        this.router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+        this.router.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
             try {
                 const containerId = req.params.id;
 
-                await this.dockerService.deleteContainer(containerId);
+                const isDeleted = await this.dockerService.deleteContainer(containerId);
                 
-                res.json({ deleted: true });
+                res.status(203).json({ deleted: isDeleted });
             } catch (error) {
                 next(error);
             }
         });
     }
 
-    // TODO: IMPLEMENT
     private logsFromContainer() {
-        this.router.get("/:id/logs", async (req: Request, res: Response, next: NextFunction) => {
+        this.router.get('/:id/logs', async (req: Request, res: Response, next: NextFunction) => {
             try {
                 const containerId = req.params.id;
 
@@ -108,11 +107,11 @@ export class DockerController {
     }
 
     private resourcesFromContainer() {
-        this.router.get("/:id/resources", async (req: Request, res: Response, next: NextFunction) => {
+        this.router.get('/:id/resources', async (req: Request, res: Response, next: NextFunction) => {
             try {
                 const containerId = req.params.id;
 
-                const data = await this.dockerService.monitorContainerResources(containerId);
+                const data = await this.dockerService.getContainerResources(containerId);
                 
                 res.json(data);
             } catch (error) {

@@ -1,8 +1,9 @@
-import * as bodyParser from "body-parser";
-import * as cors from "cors";
-import * as express from "express";
-import { NextFunction, Request, Response } from "express";
-import { DockerController } from "./controllers/docker.controller";
+import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
+import * as express from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { DockerController } from './controllers/docker.controller';
+import { RuntimeError } from './errorTypes/runtime.error';
 
 
 class App {
@@ -20,9 +21,14 @@ class App {
      * Error handling middleware should be defined as the last app.use() method
      */
     private handleOperationalErrors() {
+        // tslint:disable-next-line:ter-prefer-arrow-callback
         this.app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
-            console.error(err.stack);
+            if (err instanceof RuntimeError) {
+                res.status(500).json({message: err.message});
+                return;
+            }
             res.status(500).send(err);
+            console.error(err);
         });
     }
 
@@ -33,7 +39,7 @@ class App {
     }
 
     private configureRoutes() {
-        this.app.use("/api/containers", new DockerController().router);
+        this.app.use('/api/containers', new DockerController().router);
     }
 }
 

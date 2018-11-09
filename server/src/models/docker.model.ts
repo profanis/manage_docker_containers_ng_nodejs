@@ -7,6 +7,7 @@ export class DockerModel {
     tag: string;
     state: DockerStateModel;
     logs?: DockerLogsModel[];
+    resources?: any;
 
     constructor() {
 

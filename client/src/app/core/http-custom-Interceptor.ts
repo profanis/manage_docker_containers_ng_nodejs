@@ -1,4 +1,4 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, throwError as observableThrowError } from 'rxjs';
@@ -27,18 +27,24 @@ export class HttpCustomInterceptor implements HttpInterceptor {
 
   private handleResponse = (event: HttpEvent<any>) => {
 
-    const handle200 = function(status) {
-      if (status === 200) {
-        console.log('Successfully saved!');
-        // TODO: enagle toastr
-        // this.toastr.success('Successfully saved!', 'info');
+    const handle201 = (status) => {
+      if (status === 201) {
+        this.toastr.success('Successfully saved!', 'info');
+      }
+    };
+
+    const handle203 = (status) => {
+      if (status === 203) {
+        this.toastr.success('Successfully deleted!', 'info');
       }
     };
 
 
     if (event instanceof HttpResponse) {
 
-      handle200(event.status);
+      handle201(event.status);
+
+      handle203(event.status);
 
       this.handleLoading().hide();
     }
@@ -47,16 +53,15 @@ export class HttpCustomInterceptor implements HttpInterceptor {
   }
 
   private handleErrorResponse = (err) => {
+    debugger;
     let message = '';
     try {
-      message = err.error.messages;
+      message = err.message;
     } catch (e) {
       // do nothing
     }
     if (message) {
-      // this.toastr.error(message, 'error');
-      // TODO: enable toastr
-      console.error(message);
+      this.toastr.error(message, 'error');
     }
   }
 
@@ -70,7 +75,7 @@ export class HttpCustomInterceptor implements HttpInterceptor {
 
       catchError((err: any, caught: Observable<any>) => {
 
-        this.handleErrorResponse(err);
+        this.handleErrorResponse(err.error);
 
         this.handleLoading().hide();
         return observableThrowError(err);

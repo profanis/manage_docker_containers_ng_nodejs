@@ -16,7 +16,7 @@
     "no-trailing-whitespace": false,
      "quotemark": [
        true,
-       "double"
+       "single"
      ],
     "semicolon": [
       true,

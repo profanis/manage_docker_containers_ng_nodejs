@@ -1,3 +1,33 @@
-<pre>
-  {{ containerResources$ | async | json }}
-</pre>
+<div class="container">
+  <h2>Container Resources</h2>
+
+  <div *ngIf="containerResources$ | async as containerResources">
+
+    <div class="ml-4">
+      <div class="row">
+        <div class="col-sm-2">
+          <strong>Image Name:</strong>
+        </div>
+        <div class="col-sm-1">
+          {{containerResources.name}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-2">
+          <strong>Container Tag:</strong>
+        </div>
+        <div class="col-sm-1">
+          {{containerResources.tag}}
+        </div>
+      </div>
+
+      <pre>
+          {{ containerResources.resources | json }}
+      </pre>
+    </div>
+
+
+
+  </div>
+
+</div>

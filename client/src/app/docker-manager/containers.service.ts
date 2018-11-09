@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { ContainerModel } from './models/container.model';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DockerModel } from '../../../../server/src/models/docker.model';
-import { map } from 'rxjs/operators';
+
+import { ContainerModel } from './models/container.model';
 
 @Injectable()
 export class ContainersService {

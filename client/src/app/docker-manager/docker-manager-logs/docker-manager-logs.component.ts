@@ -7,8 +7,7 @@ import { ContainerModel } from '../models/container.model';
 
 @Component({
   selector: 'app-docker-manager-logs',
-  templateUrl: './docker-manager-logs.component.html',
-  styleUrls: ['./docker-manager-logs.component.scss']
+  templateUrl: './docker-manager-logs.component.html'
 })
 export class DockerManagerLogsComponent implements OnInit {
 

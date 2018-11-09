@@ -6,7 +6,6 @@ import { ContainerModel } from '../models/container.model';
 @Component({
   selector: 'app-docker-manager-create',
   templateUrl: './docker-manager-create.component.html',
-  styleUrls: ['./docker-manager-create.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DockerManagerCreateComponent implements OnInit {
@@ -26,12 +25,10 @@ export class DockerManagerCreateComponent implements OnInit {
 
 
   actionCreateContainer({value}: {value}) {
-    // TODO: better return a different type
     this.createContainer.emit({
       name: value.name,
       tag: value.tag,
-      id: null,
-      state: null
+      id: null
     });
   }
 

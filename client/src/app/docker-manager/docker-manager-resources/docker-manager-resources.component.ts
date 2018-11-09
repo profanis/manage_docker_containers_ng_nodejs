@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+
 import { ContainersService } from '../containers.service';
-import { Observable, Subject } from "rxjs";
 
 @Component({
   selector: 'app-docker-manager-resources',

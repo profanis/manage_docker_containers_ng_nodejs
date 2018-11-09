@@ -5,6 +5,7 @@ export interface ContainerModel {
   id: string;
   name: string;
   tag: string;
-  state: ContainerStateModel;
-  logs?: ContainerLogsModel;
+  state?: ContainerStateModel;
+  logs?: ContainerLogsModel[];
+  resources?: any;
 }

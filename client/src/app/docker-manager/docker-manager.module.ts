@@ -3,12 +3,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
+import { ContainersService } from './containers.service';
 import { DockerManagerContainerComponent } from './docker-manager-container/docker-manager-container.component';
 import { DockerManagerCreateComponent } from './docker-manager-create/docker-manager-create.component';
 import { DockerManagerListComponent } from './docker-manager-list/docker-manager-list.component';
 import { DockerManagerLogsComponent } from './docker-manager-logs/docker-manager-logs.component';
 import { DockerManagerResourcesComponent } from './docker-manager-resources/docker-manager-resources.component';
-import { ContainersService } from './containers.service';
 
 const routes: Routes = [
   {path: 'docker-manager', component: DockerManagerContainerComponent},

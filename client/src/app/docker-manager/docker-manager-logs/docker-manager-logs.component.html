@@ -1,11 +1,45 @@
-<h2>Logs for:</h2>
-<h4>{{(containerModel$ | async)?.name}}
-  {{(containerModel$ | async)?.tag}}
-</h4>
+<div class="container">
 
-<ul *ngIf="(containerModel$ | async)?.logs">
-  <li *ngFor="let logItem of (containerModel$ | async)?.logs">
-    <p><strong>{{logItem.title}}</strong></p>
-    <p>{{logItem.data | json}}</p>
-  </li>
-</ul>
+  <h2>Containers Logs</h2>
+
+
+  <div *ngIf="containerModel$ | async as containerModel">
+    <div class="ml-4">
+      <div class="row">
+        <div class="col-sm-2">
+          <strong>Image Name:</strong>
+        </div>
+        <div class="col-sm-1">
+          {{containerModel.name}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-2">
+          <strong>Container Tag:</strong>
+        </div>
+        <div class="col-sm-1">
+          {{containerModel.tag}}
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <ul *ngIf="containerModel.logs && containerModel.logs.length; else noLogs">
+        <li *ngFor="let logItem of containerModel.logs">
+          <p><strong>{{logItem.title}}</strong></p>
+          <p>{{logItem.data | json}}</p>
+        </li>
+      </ul>
+
+      <ng-template #noLogs>
+        <div class="ml-4">
+          <p>
+            no logs found
+          </p>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+
+</div>

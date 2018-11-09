@@ -1,40 +1,46 @@
-## Manage Docker Containers
+## API for Docker Manager
 
-### Prensetation Layer
-* Controllers
-    
-    The code of the routes/endpoints. This layer is dumb and should not have any logic. If needed could orchestrate multiple services. 
+### Based on yarn
+The project is based on yarn package manager. It would work with npm, but it's not guaranteed that correct versions will be installed. For more info please check https://www.npmjs.com/package/semver
 
+### Build the docker container
 
-### Business Layer
-* Services
+- **Prerequisites**
+  
+  The user should be in `docker` group. For more https://docs.docker.com/install/linux/linux-postinstall/
 
-    All the business logic belongs here
+> yarn tsc
+> docker build -t "manage_docker_containers" .
+> docker run --env APP_PORT=3001 -p 3001:3001 -it manage_docker_containers
 
+### Test
+> yarn test
 
-Manage Docker as a non-root user
-https://docs.docker.com/install/linux/linux-postinstall/
+### Postman collection
+Import in postman to get access on the API's endpoints https://www.getpostman.com/collections/4e19e3d2eccf6e36a742
 
-## View containers
-> GET /containers
+### View containers
+> GET /api/containers
 
 |Query param|Type           |Description        |Default|
 |-----------|---------------|-------------------|-------|
 |all        |boolean        |view all containers|false  |
 
-## Create a container
-> POST /containers
+*by default it returns the running containers*
+
+### Create a container
+> POST /api/containers
 
 **body**
 ```
 {
-    name: "ubuntu",
-    tag: "myUbuntuContainer"
+    name: "ngingx",
+    tag: "myNginxContainer"
 }
 ```
 
-## Start a container
-> PATCH /containers/{id}
+### Start a container
+> PATCH /api/containers/{id}
 
 **body**
 ```
@@ -43,8 +49,8 @@ https://docs.docker.com/install/linux/linux-postinstall/
 }
 ```
 
-## Stop a container
-> PATCH /containers/{id}
+### Stop a container
+> PATCH /api/containers/{id}
 
 **body**
 ```
@@ -53,15 +59,11 @@ https://docs.docker.com/install/linux/linux-postinstall/
 }
 ```
 
-## Delete a container
-> DELETE /containers/{id}
+### Delete a container
+> DELETE /api/containers/{id}
 
-## Monitor the resource usage of each container. (CPU, I/O, etc)
-> GET /containers/{id}/resources
+### Monitor the resource usage of each container. (CPU, I/O, etc)
+> GET /api/containers/{id}/resources
 
-## View log output of each container instance.
-> GET /containers/{id}/logs
-
-# How to run the docker file
-> docker build -t "manage_docker_containers" .
-> docker run --env APP_PORT=3001 -p 3001:3001 -it manage_docker_containers
+### View log output of each container instance.
+> GET /api/containers/{id}/logs
