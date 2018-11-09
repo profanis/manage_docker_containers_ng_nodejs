@@ -2,11 +2,13 @@
 
 ### Run the `server` and `client` containers through docker-compose
 
-> cd server
-> yarn tsc
-> cd ../client
-> yarn build
-> docker-compose up --build
+```
+cd server
+yarn tsc
+cd ../client
+yarn build
+docker-compose up --build
+```
 
 Open in browser http://localhost:4200
 
